@@ -5,16 +5,27 @@ window.onload = function(){
     game.fps = 15;
     game.preload("invaders.png");
 	function spawnEnemy(startx, starty, enemytype){
-		var invader = new Sprite(32, 32);
+		var invader = new Sprite(32, 27);
 			invader.image = game.assets["invaders.png"];
 			invader.x = startx;
 			invader.y = starty;
-			invader.frame = 5;
+			invader.frame = enemytype;
+			invader.newFrame = function(){
+				if(this.frame % 2 = 0){
+				this.frame = (this.enemytype * 2) + 1;
+				}else{
+				this.frame = this.enemytype * 2;
+				}
+			}
 			game.rootScene.addChild(invader);
 
 			invader.addEventListener("enterframe", function(){
 				this.x += 1;
-				this.frame = this.age % 2 + 6;
+				if((this.age % 3) = 0){
+					this.newFrame();
+				}else{
+					this.frame = this.frame;
+				}
 			});
 
 			invader.addEventListener("touchstart", function(){
