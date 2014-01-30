@@ -17,11 +17,11 @@ window.onload = function(){
 				}else{
 				this.frame = this.frame - 1;
 				}
+				this.x += 3;
 			}
 			game.rootScene.addChild(invader);
 
 			invader.addEventListener("enterframe", function(){
-				this.x += 1;
 				if((this.age % game.framedelay) == 0){
 					this.newFrame();
 				}else{
