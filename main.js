@@ -1,7 +1,7 @@
 enchant();
 
 window.onload = function(){
-    var game = new Core(330, 330);
+    var game = new Core(320, 320);
 	game.framedelay = 4;
     game.fps = 15;
 	game.enemydirection = 1;
@@ -28,14 +28,14 @@ window.onload = function(){
 				}else{
 				this.frame = this.frame - 1;
 				}
-				this.x += game.enemydirection;
+				this.x += 3 * game.enemydirection;
 			}
 			game.rootScene.addChild(invader);
 
 			invader.addEventListener("enterframe", function(){
-				if((this.x == (330 - 31)) && (game.enemydirection == 1)){
+				if((this.x == 320 - (31-5)) && (game.enemydirection == 1)){
 					game.enemyonedge = true;
-				}else if((this.x == 0) && (game.enemydirection == -1)){
+				}else if((this.x == (31-4)) && (game.enemydirection == -1)){
 					game.enemyonedge = true;
 				}else{
 					game.enemyonedge = false;
@@ -53,7 +53,7 @@ window.onload = function(){
 		return invader;
 		}
     game.onload = function(){
-		var enemy1 = spawnEnemy(100, 100, 0);
+		var enemy1 = spawnEnemy(0, 0, 0);
 		var enemy2 = spawnEnemy(50, 50, 1);
 		var enemy3 = spawnEnemy(50, 100, 2);
     };
