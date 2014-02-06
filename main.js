@@ -4,7 +4,20 @@ window.onload = function(){
     var game = new Core(320, 320);
 	game.framedelay = 4;
     game.fps = 15;
+	game.enemydirection = 1
+	game.enemyonedge = 0
+	game.age = 0;
+	// 1 is move right, -1 is move left
+	game.addEventListener("enterframe", function(){	
+		game.age += 1;
+		if(this.enemyonedge == 1){
+			game.enemydirection = game.enemydirection * -1;
+		}else{
+			game.enemydirection = game.enemydirection;
+		}
+	});
     game.preload("invaders.png");
+	
 	function spawnEnemy(startx, starty, enemytype){
 		var invader = new Sprite(31, 27);
 			invader.image = game.assets["invaders.png"];
@@ -17,11 +30,21 @@ window.onload = function(){
 				}else{
 				this.frame = this.frame - 1;
 				}
-				this.x += 3;
+				this.x += (3 * game.enemydirection);
 			}
 			game.rootScene.addChild(invader);
 
 			invader.addEventListener("enterframe", function(){
+			if((this.x >= (320 - 31)) && (game.enemydirection == 1)){
+					game.enemyonedge = 1;
+					console.log("ding!");
+				}else if((this.x <= 0) && (game.enemydirection == -1)){
+					game.enemyonedge = 1;
+					console.log("ding");
+				}else{
+					console.log(game.enemyonedge);
+				}
+
 				if((this.age % game.framedelay) == 0){
 					this.newFrame();
 				}else{
@@ -37,7 +60,7 @@ window.onload = function(){
     game.onload = function(){
 		var enemy1 = spawnEnemy(0, 0, 0);
 		var enemy2 = spawnEnemy(50, 50, 1);
-		var enemy3 = spawnEnemy(50, 100, 2);
+		var enemy3 = spawnEnemy(270, 100, 2);
     };
     game.start();
 };
