@@ -1,22 +1,41 @@
+var StageHeight = 320;
+var StageWidth = 320;
 enchant();
 
-window.onload = function(){
-    var game = new Core(320, 320);
+window.onload = function(){	
+    var game = new Core(StageHeight, StageWidth);
 	game.framedelay = 4;
     game.fps = 15;
 	game.enemydirection = 1
 	game.enemyonedge = 0
+	game.godown = false;
+	game.counter = 0;
 	game.age = 0;
 	// 1 is move right, -1 is move left
 	game.addEventListener("enterframe", function(){	
 		game.age += 1;
+		if(game.godown){
+			game.counter += 1;
+		}else{
+			console.log("");
+		}
+		if(this.counter == 4){
+			game.counter = 0;
+			game.godown = false;
+		}
 		if(this.enemyonedge == 1){
 			game.enemydirection = game.enemydirection * -1;
+			game.godown = true;
 			game.enemyonedge = 0;
 		}else{
 			console.log("Nothing on The Edge");
 		}
 	});
+	
+	var bg = new Sprite(StageHeight, StageWidth);
+	bg.backgroundColor = "rgb(0, 0 ,0)";
+	game.rootScene.addChild(bg);
+	
     game.preload("invaders.png");
 	
 	function spawnEnemy(startx, starty, enemytype){
@@ -31,26 +50,30 @@ window.onload = function(){
 				}else{
 				this.frame = this.frame - 1;
 				}
-				this.x += (3 * game.enemydirection);
+				if(game.godown){
+					this.y += 10;
+				}else{
+					this.x += (3 * game.enemydirection);
+					}
 			}
 			game.rootScene.addChild(invader);
 
 			invader.addEventListener("enterframe", function(){
-			if((this.x >= (320 - 31)) && (game.enemydirection == 1)){
-					game.enemyonedge = 1;
-					console.log("Right Side Collide");
-				}else if((this.x <= 0) && (game.enemydirection == -1)){
-					game.enemyonedge = 1;
-					console.log("Left Side Collide");
-				}else{
-					console.log(game.enemyonedge);
-				}
+					if((this.x >= (320 - 31)) && (game.enemydirection == 1)){
+						game.enemyonedge = 1;
+						console.log("Right Side Collide");
+					}else if((this.x <= 0) && (game.enemydirection == -1)){
+						game.enemyonedge = 1;
+						console.log("Left Side Collide");
+					}else{
+						console.log(game.enemyonedge);
+					}
 
-				if((this.age % game.framedelay) == 0){
-					this.newFrame();
-				}else{
-					this.frame = this.frame;
-				}
+					if((this.age % game.framedelay) == 0){
+						this.newFrame();
+					}else{
+						this.frame = this.frame;
+					}
 			});
 
 			invader.addEventListener("touchstart", function(){
@@ -59,7 +82,7 @@ window.onload = function(){
 		return invader;
 		}
     game.onload = function(){
-		var enemy1 = spawnEnemy(0, 0, 0);
+		var enemy1 = spawnEnemy(300, 0, 0);
 		var enemy2 = spawnEnemy(50, 50, 1);
 		var enemy3 = spawnEnemy(100, 100, 2);
     };
