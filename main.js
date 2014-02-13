@@ -12,8 +12,9 @@ window.onload = function(){
 		game.age += 1;
 		if(this.enemyonedge == 1){
 			game.enemydirection = game.enemydirection * -1;
+			game.enemyonedge = 0;
 		}else{
-			game.enemydirection = game.enemydirection;
+			console.log("Nothing on The Edge");
 		}
 	});
     game.preload("invaders.png");
@@ -37,10 +38,10 @@ window.onload = function(){
 			invader.addEventListener("enterframe", function(){
 			if((this.x >= (320 - 31)) && (game.enemydirection == 1)){
 					game.enemyonedge = 1;
-					console.log("ding!");
+					console.log("Right Side Collide");
 				}else if((this.x <= 0) && (game.enemydirection == -1)){
 					game.enemyonedge = 1;
-					console.log("ding");
+					console.log("Left Side Collide");
 				}else{
 					console.log(game.enemyonedge);
 				}
@@ -60,7 +61,7 @@ window.onload = function(){
     game.onload = function(){
 		var enemy1 = spawnEnemy(0, 0, 0);
 		var enemy2 = spawnEnemy(50, 50, 1);
-		var enemy3 = spawnEnemy(270, 100, 2);
+		var enemy3 = spawnEnemy(100, 100, 2);
     };
     game.start();
 };
