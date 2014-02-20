@@ -7,11 +7,11 @@ window.onload = function(){
 	game.framedelay = 4;
     game.fps = 15;
 	game.enemydirection = 1
+	// 1 is move right, -1 is move left
 	game.enemyonedge = 0
 	game.godown = false;
 	game.counter = 0;
 	game.age = 0;
-	// 1 is move right, -1 is move left
 	game.addEventListener("enterframe", function(){	
 		game.age += 1;
 		if(game.godown){
@@ -81,8 +81,19 @@ window.onload = function(){
 			});
 		return invader;
 		}
+		game.preload("player.jpg");
+		function spawnPlayer(startx, starty){
+			var player = new Sprite(51, 29);
+			player.image = game.assets["player.jpg"];
+			player.x = startx;
+			player.y = starty;
+			player.frame = 0;
+			game.rootScene.addChild(player);
+			return player;
+		}
     game.onload = function(){
-		var enemy1 = spawnEnemy(300, 0, 0);
+		var player1 = spawnPlayer(100, 100); 
+		var enemy1 = spawnEnemy(280, 0, 0);
 		var enemy2 = spawnEnemy(50, 50, 1);
 		var enemy3 = spawnEnemy(100, 100, 2);
     };
