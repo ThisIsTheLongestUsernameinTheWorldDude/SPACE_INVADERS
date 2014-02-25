@@ -1,9 +1,9 @@
 var StageHeight = 320;
-var StageWidth = 320;
+var StageWidth = 450;
 enchant();
 
 window.onload = function(){	
-    var game = new Core(StageHeight, StageWidth);
+    var game = new Core(StageWidth, StageHeight);
 	game.framedelay = 4;
     game.fps = 15;
 	game.enemydirection = 1
@@ -32,7 +32,7 @@ window.onload = function(){
 		}
 	});
 	
-	var bg = new Sprite(StageHeight, StageWidth);
+	var bg = new Sprite(StageWidth, StageHeight);
 	bg.backgroundColor = "rgb(0, 0 ,0)";
 	game.rootScene.addChild(bg);
 	
@@ -59,7 +59,7 @@ window.onload = function(){
 			game.rootScene.addChild(invader);
 
 			invader.addEventListener("enterframe", function(){
-					if((this.x >= (320 - 31)) && (game.enemydirection == 1)){
+					if((this.x >= (StageWidth - 31)) && (game.enemydirection == 1)){
 						game.enemyonedge = 1;
 						console.log("Right Side Collide");
 					}else if((this.x <= 0) && (game.enemydirection == -1)){
@@ -83,7 +83,7 @@ window.onload = function(){
 		}
 		game.preload("player.jpg");
 		function spawnPlayer(startx, starty){
-			var player = new Sprite(51, 29);
+			var player = new Sprite(31, 21);
 			player.image = game.assets["player.jpg"];
 			player.x = startx;
 			player.y = starty;
