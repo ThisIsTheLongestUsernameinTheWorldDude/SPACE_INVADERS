@@ -36,6 +36,8 @@ window.onload = function(){
 	bg.backgroundColor = "rgb(0, 0 ,0)";
 	game.rootScene.addChild(bg);
 	
+	var invaders = [];
+	
     game.preload("invaders.png");
 	
 	function spawnEnemy(startx, starty, enemytype){
