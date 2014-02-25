@@ -39,12 +39,12 @@ window.onload = function(){
     game.preload("invaders.png");
 	
 	function Enemy(startx, starty, enemytype){
-		this = new Sprite(31, 27);
-			this.image = game.assets["invaders.png"];
-			this.x = startx;
-			this.y = starty;
-			this.frame = enemytype * 2;
-			this.newFrame = function(){
+		var invader = new Sprite(31, 27);
+			invader.image = game.assets["invaders.png"];
+			invader.x = startx;
+			invader.y = starty;
+			invader.frame = enemytype * 2;
+			invader.newFrame = function(){
 				if((this.frame % 2) == 0){
 				this.frame = this.frame + 1;
 				}else{
@@ -56,9 +56,9 @@ window.onload = function(){
 					this.x += (3 * game.enemydirection);
 					}
 			}
-			game.rootScene.addChild(this);
+			game.rootScene.addChild(invader);
 
-			this.addEventListener("enterframe", function(){
+			invader.addEventListener("enterframe", function(){
 					if((this.x >= (320 - 31)) && (game.enemydirection == 1)){
 						game.enemyonedge = 1;
 						console.log("Right Side Collide");
@@ -76,10 +76,10 @@ window.onload = function(){
 					}
 			});
 
-			this.addEventListener("touchstart", function(){
-				game.rootScene.removeChild(this);
+			invader.addEventListener("touchstart", function(){
+				game.rootScene.removeChild(invader);
 			});
-		return this;
+		return invader;
 		}
 		game.preload("player.jpg");
 		function spawnPlayer(startx, starty){
