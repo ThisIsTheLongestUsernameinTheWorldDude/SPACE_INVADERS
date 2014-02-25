@@ -38,7 +38,7 @@ window.onload = function(){
 	
     game.preload("invaders.png");
 	
-	function Enemy(startx, starty, enemytype){
+	function spawnEnemy(startx, starty, enemytype){
 		var invader = new Sprite(31, 27);
 			invader.image = game.assets["invaders.png"];
 			invader.x = startx;
@@ -93,10 +93,9 @@ window.onload = function(){
 		}
     game.onload = function(){
 		var player1 = spawnPlayer(100, 100); 
-		var enemy1 = new Enemy(280, 0, 0);
-		var enemy2 = new Enemy(50, 50, 1);
-		var enemy3 = new Enemy(100, 100, 2);
-		console.log(enemy1 instanceof Enemy);
+		var enemy1 = spawnEnemy(280, 0, 0);
+		var enemy2 = spawnEnemy(50, 50, 1);
+		var enemy3 = spawnEnemy(100, 100, 2);
     };
     game.start();
 };
