@@ -94,7 +94,7 @@ window.onload = function(){
 			return player;
 		}
     game.onload = function(){
-		var player1 = spawnPlayer(100, 100); 
+		var player1 = spawnPlayer(200, 320 - 21); 
 		var enemy1 = spawnEnemy(280, 0, 0);
 		var enemy2 = spawnEnemy(50, 50, 1);
 		var enemy3 = spawnEnemy(100, 100, 2);
