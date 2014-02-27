@@ -1,17 +1,20 @@
 var StageHeight = 320;
 var StageWidth = 450;
+var PlayerSpeed = 2;
+var PlayerBulletSpeed = 5;
 enchant();
 
 window.onload = function(){	
     var game = new Core(StageWidth, StageHeight);
-	game.framedelay = 4;
-    game.fps = 15;
+	game.framedelay = 16;
+    game.fps = 60;
 	game.enemydirection = 1
 	// 1 is move right, -1 is move left
 	game.enemyonedge = 0
 	game.godown = false;
 	game.counter = 0;
 	game.age = 0;
+	game.playerbulletactive = false;
 	game.addEventListener("enterframe", function(){	
 		game.age += 1;
 		if(game.godown){
@@ -83,6 +86,25 @@ window.onload = function(){
 			});
 		return invader;
 		}
+		
+		game.preload("playerbullet.jpg");
+		function spawnPlayerBullet(startx, starty){
+			var bullet = new Sprite(2, 10);
+			bullet.image = game.assets["playerbullet.jpg"];
+			bullet.x = startx;
+			bullet.y = starty;
+			bullet.frame = 0;
+			bullet.addEventListener("enterframe", function(){
+					this.y -= PlayerBulletSpeed;
+					if(this.y <= -10){
+						game.playerbulletactive = false;
+						game.rootScene.removeChild(bullet);
+					}
+				});
+			game.rootScene.addChild(bullet);
+			return bullet;
+		}
+		
 		game.preload("player.jpg");
 		function spawnPlayer(startx, starty){
 			var player = new Sprite(31, 21);
@@ -90,6 +112,19 @@ window.onload = function(){
 			player.x = startx;
 			player.y = starty;
 			player.frame = 0;
+			player.addEventListener("enterframe", function(){
+				if(game.input.left){
+					this.x -= PlayerSpeed;
+					}else if(game.input.right){
+					this.x += PlayerSpeed;
+					}else{
+					this.x = this.x
+					}
+				if(game.input.up && !game.playerbulletactive){
+					var bullet = spawnPlayerBullet(this.x + 15, this.y - 12);
+					game.playerbulletactive = true;
+					}
+				});
 			game.rootScene.addChild(player);
 			return player;
 		}
