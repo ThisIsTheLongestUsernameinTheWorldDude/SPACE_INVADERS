@@ -7,14 +7,12 @@ enchant();
 window.onload = function(){	
     var game = new Core(StageWidth, StageHeight);
 	game.framedelay = 16;
-	//invaders mover every 16th frame
     game.fps = 60;
 	game.enemydirection = 1
 	// 1 is move right, -1 is move left
 	game.enemyonedge = 0
 	game.godown = false;
 	game.counter = 0;
-	//dont ask, i use it to regulate downward movement for enemies
 	game.age = 0;
 	game.playerbulletactive = false;
 	game.addEventListener("enterframe", function(){	
@@ -32,6 +30,8 @@ window.onload = function(){
 			game.enemydirection = game.enemydirection * -1;
 			game.godown = true;
 			game.enemyonedge = 0;
+		}else{
+			console.log("Nothing on The Edge");
 		}
 	});
 	
@@ -45,7 +45,6 @@ window.onload = function(){
 	
 	function spawnEnemy(startx, starty, enemytype){
 		var invader = new Sprite(31, 27);
-			console.log(invader);
 			invader.image = game.assets["invaders.png"];
 			invader.x = startx;
 			invader.y = starty;
@@ -71,6 +70,8 @@ window.onload = function(){
 					}else if((this.x <= 0) && (game.enemydirection == -1)){
 						game.enemyonedge = 1;
 						console.log("Left Side Collide");
+					}else{
+						console.log(game.enemyonedge);
 					}
 
 					if((this.age % game.framedelay) == 0){
@@ -83,7 +84,6 @@ window.onload = function(){
 			invader.addEventListener("touchstart", function(){
 				game.rootScene.removeChild(invader);
 			});
-		invaders.push(invader);
 		return invader;
 		}
 		
@@ -100,17 +100,6 @@ window.onload = function(){
 						game.playerbulletactive = false;
 						game.rootScene.removeChild(bullet);
 					}
-					for(var i = 0; i <= invaders.length; i++){
-						if(this.intersect(invaders[i])){
-							invaders[i].y = -100
-							// even after using removechild, the enmy is still there, just invisible.
-							//this moves them offstage
-							console.log("does it work");
-							game.rootScene.removeChild(invaders[i]);
-							game.playerbulletactive = false;
-							game.rootScene.removeChild(this);
-							}
-						}
 				});
 			game.rootScene.addChild(bullet);
 			return bullet;
@@ -144,7 +133,6 @@ window.onload = function(){
 		var enemy1 = spawnEnemy(280, 0, 0);
 		var enemy2 = spawnEnemy(50, 50, 1);
 		var enemy3 = spawnEnemy(100, 100, 2);
-
     };
     game.start();
 };
