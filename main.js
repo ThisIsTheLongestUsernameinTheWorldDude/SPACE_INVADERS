@@ -24,7 +24,7 @@ window.onload = function(){
 		}else{
 			console.log("");
 		}
-		if(this.counter == 4){
+		if(this.counter == 17){
 			game.counter = 0;
 			game.godown = false;
 		}
