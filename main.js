@@ -7,7 +7,7 @@ enchant();
 window.onload = function(){	
     var game = new Core(StageWidth, StageHeight);
 	game.framedelay = 16;
-	//invaders mover every 16th frame
+	//invaders move every 16th frame
     game.fps = 60;
 	game.enemydirection = 1
 	// 1 is move right, -1 is move left
@@ -21,8 +21,6 @@ window.onload = function(){
 		game.age += 1;
 		if(game.godown){
 			game.counter += 1;
-		}else{
-			console.log("");
 		}
 		if(this.counter == 17){
 			game.counter = 0;
@@ -50,6 +48,8 @@ window.onload = function(){
 			invader.x = startx;
 			invader.y = starty;
 			invader.frame = enemytype * 2;
+			invader.dead = false;
+			//used to handle death animation
 			invader.newFrame = function(){
 				if((this.frame % 2) == 0){
 				this.frame = this.frame + 1;
@@ -87,6 +87,8 @@ window.onload = function(){
 		return invader;
 		}
 		
+		
+		
 		game.preload("playerbullet.jpg");
 		function spawnPlayerBullet(startx, starty){
 			var bullet = new Sprite(2, 10);
@@ -102,11 +104,10 @@ window.onload = function(){
 					}
 					for(var i = 0; i <= invaders.length; i++){
 						if(this.intersect(invaders[i])){
-							invaders[i].y = -100
-							// even after using removechild, the enmy is still there, just invisible.
-							//this moves them offstage
-							console.log("does it work");
 							game.rootScene.removeChild(invaders[i]);
+							invaders.splice(i, 1);
+							//if it is not removed from the list, that item will remain there in it's last active state.
+							//meaning it will behave as if it were still in the place it was when it was removed.
 							game.playerbulletactive = false;
 							game.rootScene.removeChild(this);
 							}
@@ -124,9 +125,9 @@ window.onload = function(){
 			player.y = starty;
 			player.frame = 0;
 			player.addEventListener("enterframe", function(){
-				if(game.input.left){
+				if(game.input.left && !this.x <= 0){
 					this.x -= PlayerSpeed;
-					}else if(game.input.right){
+					}else if(game.input.right && this.x <= (StageWidth - 31)){
 					this.x += PlayerSpeed;
 					}else{
 					this.x = this.x
